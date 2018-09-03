@@ -1,0 +1,36 @@
+-
+        第一：放行一些资源(登陆页面、登陆失败页面)
+            pattern 要放行的资源
+            security 放行的资源需要的权限，为空。就是访问当前资源不需要权限控制
+    -->
+  第二：登陆认证的配置
+        security:http
+            auto-config 是否自动配置登陆页面，如果没有指定登陆表单，框架会自动生成登陆表单页面
+            use-expressions 是否使用SpEL表达式 （Spring提供的Expression Language）
+        security:intercept-url  配置要拦截的资源
+            pattern="/**" 表示拦截所有资源
+            access="ROLE_USER" 表示访问所有资源都要有的权限（是角色）
+                               这里指定了访问所有资源的用户都要有ROLE_USER角色
+                               写法：必须以ROLE_ 开头。
+        security:form-login 配置登陆表达的信息
+            login-page="/login.html"       指定登陆页面
+            login-processing-url="/login"  指定登陆页面的提交地址
+            username-parameter="uname"     指定登陆页面的用户名表单元素名称
+            password-parameter="pwd"       指定登陆页面的密码表单元素名称
+            authentication-failure-url="/failer.html" 认证失败（登陆失败）默认跳转的页面
+            default-target-url="/success.html"  登陆成功默认进入的页面地址
+       security:logout      配置退出信息
+            logout-url="/logout"   退出的地址
+            logout-success-url="/login.html" 退出成功后默认跳转的页面地址
+            invalidate-session="true"        退出后是否自动销毁session
+       <security:csrf disabled="true">       关闭跨域请求。
+    -->
+  security:authentication-manager 认证管理器配置
+         目前账号密码写死，以后要查询数据库
+
+         security:user    在内存中写死的默认的用户的配置
+            name="jack"   用户名
+            password="{noop}123"  密码，{noop} 表示密码不加载，默认会自动加密。
+            authorities="ROLE_USER" 用户具有的角色，要与上面的access="ROLE_USER"要一致。
+    -->
+	使用注解开发进行多表查询时,必须对查询结果进行自定义封装,不然无法自动封装对应数据
